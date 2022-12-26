@@ -18,7 +18,7 @@ class Demo {
     }
     function get_user_info() {
        // $result = $this->_req->get(self::URL);
-        $result = $this->_req->mockGet(self::URL);
+        $result = $this->_req->mockGet(self::URL); //由于url访问不通，这里通过mock数据完成测试
         
         $result_arr = json_decode($result, true);
         if (in_array('error', $result_arr) && $result_arr['error'] == 0) {
