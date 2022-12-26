@@ -12,14 +12,26 @@ interface LoggerInterface{
 class SimleFactory {
     const TYPE_LOG4PHP = 'log4php';
     const TYPE_THINKLOG = 'thinklog';
+    private static $AppLoggerClass;
+    private static $ThinkLoggerClass;
 
     public static function getInstance($factoryName){
+
         switch ($factoryName) {
             case self::TYPE_LOG4PHP:
-                return new AppLogger(self::TYPE_LOG4PHP);
+                if (!empty(self::$AppLoggerClass)){
+                    return self::$AppLoggerClass;
+                }
+                self::$AppLoggerClass = new AppLogger(self::TYPE_LOG4PHP);
+                return self::$AppLoggerClass;
                 break;
             case self::TYPE_THINKLOG:
-                return new ThinkLogger();
+
+                if (!empty(self::$ThinkLoggerClass)){
+                    return self::$ThinkLoggerClass;
+                }
+                self::$ThinkLoggerClass = new ThinkLogger();
+                return self::$ThinkLoggerClass;
                 break;
             default:
                 # code...
@@ -58,8 +70,6 @@ class AppLogger implements LoggerInterface
 }
 
 class ThinkLogger implements LoggerInterface{
-
-    private $Thinklogger;
 
     public function __construct()
     {
